@@ -1,14 +1,12 @@
-name: Deploy full VI manual
+name: Deploy VI manual to GitHub Pages
 
 on:
   push:
     branches: [main]
-    paths:
-      - '.github/workflows/import-full-site.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -17,49 +15,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-site:
-    runs-on: ubuntu-latest
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Download complete VI manual
-        shell: bash
-        run: |
-          set -euo pipefail
-          BASE='https://piercing-bot-jbk432j.shipstatic.com'
-          curl -fL "$BASE/" -o index.html
-          for i in $(seq -w 1 15); do
-            curl -fL "$BASE/p${i}.txt" -o "p${i}.txt"
-          done
-          touch .nojekyll
-          test -s index.html
-          for i in $(seq -w 1 15); do test -s "p${i}.txt"; done
-
-      - name: Save complete site in repository
-        shell: bash
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add index.html p*.txt .nojekyll
-          if ! git diff --cached --quiet; then
-            git commit -m 'Store complete VI manual site'
-            git push
-          fi
-
-      - name: Prepare Pages artifact
-        shell: bash
-        run: |
-          rm -rf _deploy
-          mkdir _deploy
-          cp index.html p*.txt .nojekyll _deploy/
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+
+      - name: Prepare static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _deploy
+          mkdir _deploy
+          cp index.html p*.txt .nojekyll _deploy/
+          test -s _deploy/index.html
+          for i in $(seq -w 1 15); do test -s "_deploy/p${i}.txt"; done
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
