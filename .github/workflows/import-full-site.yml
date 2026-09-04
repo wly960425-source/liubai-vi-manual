@@ -1,4 +1,4 @@
-name: Deploy VI manual to GitHub Pages
+name: Deploy HD VI manual to GitHub Pages
 
 on:
   push:
@@ -29,15 +29,18 @@ jobs:
         with:
           enablement: true
 
-      - name: Prepare static site
+      - name: Prepare HD static site
         shell: bash
         run: |
           set -euo pipefail
           rm -rf _deploy
           mkdir _deploy
-          cp index.html p*.txt .nojekyll _deploy/
+          unzip -q liubai-vi-manual-hd.zip -d _deploy
+          touch _deploy/.nojekyll
           test -s _deploy/index.html
-          for i in $(seq -w 1 15); do test -s "_deploy/p${i}.txt"; done
+          test -d _deploy/assets
+          test "$(find _deploy/assets -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 19
+          echo "HD package ready: 19 original PNG assets"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
