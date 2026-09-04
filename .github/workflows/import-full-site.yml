@@ -1,4 +1,4 @@
-name: Deploy HD VI manual to GitHub Pages
+name: Materialize and Deploy HD VI Manual
 
 on:
   push:
@@ -6,12 +6,12 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
-  group: pages
+  group: hd-pages
   cancel-in-progress: true
 
 jobs:
@@ -23,30 +23,57 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract and verify original HD site
+        shell: bash
+        run: |
+          set -euo pipefail
+          SITE="$RUNNER_TEMP/liubai-hd-site"
+          rm -rf "$SITE"
+          mkdir -p "$SITE"
+          unzip -q liubai-vi-manual-hd.zip -d "$SITE"
+          touch "$SITE/.nojekyll"
+          test -s "$SITE/index.html"
+          test -d "$SITE/assets"
+          test "$(find "$SITE/assets" -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 19
+          echo "Verified: 19 original PNG assets"
+
+      - name: Materialize HD files into main branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          SITE="$RUNNER_TEMP/liubai-hd-site"
+          rm -rf assets
+          cp -a "$SITE/assets" ./assets
+          cp "$SITE/index.html" ./index.html
+          cp "$SITE/.nojekyll" ./.nojekyll
+          rm -f p*.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Materialize original HD VI manual assets"
+            git push origin HEAD:main
+          else
+            echo "HD files already materialized"
+          fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      - name: Prepare HD static site
+      - name: Wait for legacy branch Pages build to finish first
         shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf _deploy
-          mkdir _deploy
-          unzip -q liubai-vi-manual-hd.zip -d _deploy
-          touch _deploy/.nojekyll
-          test -s _deploy/index.html
-          test -d _deploy/assets
-          test "$(find _deploy/assets -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 19
-          echo "HD package ready: 19 original PNG assets"
+        run: sleep 35
 
-      - name: Upload Pages artifact
+      - name: Upload HD Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _deploy
+          path: ${{ runner.temp }}/liubai-hd-site
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy HD site last
         id: deployment
         uses: actions/deploy-pages@v4
