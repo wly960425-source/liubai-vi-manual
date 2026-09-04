@@ -1,1 +1,1702 @@
-<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LiuBai VI Manual</title><style>body{margin:0;font-family:Arial,sans-serif;background:#faf8f5;color:#071a57;display:grid;place-items:center;min-height:100vh}.loading{text-align:center}.dot{width:34px;height:34px;border:3px solid #dae1ef;border-top-color:#103fd5;border-radius:50%;margin:0 auto 14px;animation:s 1s linear infinite}@keyframes s{to{transform:rotate(360deg)}}</style><div class="loading"><div class="dot"></div>Loading LiuBai VI Manual…</div><script>(async()=>{let s='';for(let i=1;i<=15;i++){let n=String(i).padStart(2,'0');s+=await(await fetch('p'+n+'.txt')).text()}let bin=Uint8Array.from(atob(s),c=>c.charCodeAt(0));let ds=new DecompressionStream('gzip');let text=await new Response(new Blob([bin]).stream().pipeThrough(ds)).text();document.open();document.write(text);document.close()})().catch(e=>{document.body.innerHTML='<div style="padding:24px">页面加载失败，请刷新重试。</div>'})</script>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LiuBai VI Manual</title>
+  <style>
+    :root {
+      --blue:#103FD5;
+      --navy:#071A57;
+      --sky:#67BAE4;
+      --white:#FFFFFF;
+      --offwhite:#FAF8F5;
+      --ink:#09153F;
+      --gray:#8E8F94;
+      --line:#DAE1EF;
+      --pale:#EBF6FC;
+      --radius:8px;
+      --space:8px;
+      color-scheme: light;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      background:var(--offwhite);
+      color:var(--ink);
+      font-family:"HarmonyOS Sans SC","Microsoft YaHei",Inter,Arial,sans-serif;
+      letter-spacing:0;
+    }
+    a { color:inherit; text-decoration:none; }
+    img { max-width:100%; display:block; }
+    .manual-shell {
+      display:grid;
+      grid-template-columns:280px minmax(0,1fr);
+      min-height:100vh;
+    }
+    nav {
+      position:sticky;
+      top:0;
+      height:100vh;
+      padding:32px 24px;
+      background:#fff;
+      border-right:1px solid var(--line);
+      overflow:auto;
+    }
+    .nav-logo { width:96px; margin-bottom:24px; }
+    nav h1 { margin:0 0 8px; color:var(--navy); font-size:28px; line-height:1.1; }
+    nav p { margin:0 0 24px; color:var(--gray); font-size:13px; line-height:1.6; }
+    nav a {
+      display:grid;
+      grid-template-columns:34px 1fr;
+      gap:10px;
+      align-items:center;
+      padding:9px 0;
+      border-top:1px solid #eef2f8;
+      font-size:13px;
+      color:var(--ink);
+    }
+    nav a span { color:var(--blue); font-weight:700; }
+    nav a.active { color:var(--blue); }
+    main { min-width:0; }
+    .cover {
+      min-height:760px;
+      padding:96px 7vw 64px;
+      background:
+        linear-gradient(90deg, rgba(16,63,213,.08) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(16,63,213,.08) 1px, transparent 1px),
+        var(--offwhite);
+      background-size:64px 64px;
+      display:grid;
+      grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);
+      gap:64px;
+      align-items:center;
+    }
+    .cover h2 { margin:0; color:var(--navy); font-size:76px; line-height:1.04; }
+    .cover p { max-width:680px; color:var(--ink); font-size:22px; line-height:1.7; }
+    .cover .meta { display:flex; flex-wrap:wrap; gap:12px; margin-top:34px; }
+    .cover .meta span { padding:9px 13px; border:1px solid var(--line); background:#fff; border-radius:var(--radius); color:var(--navy); font-size:13px; }
+    .cover-logo { background:#fff; border:1px solid var(--line); padding:64px; border-radius:var(--radius); }
+    .chapter { padding:82px 7vw; border-top:1px solid var(--line); background:var(--offwhite); }
+    .chapter:nth-of-type(even) { background:#fff; }
+    .chapter-head { display:grid; grid-template-columns:80px minmax(0,1fr); gap:24px; margin-bottom:36px; }
+    .chapter-head span { color:var(--blue); font-size:18px; font-weight:800; }
+    .chapter-head h2 { margin:0; color:var(--navy); font-size:44px; line-height:1.15; }
+    .chapter-head p { grid-column:2; margin:0; max-width:920px; color:var(--ink); font-size:18px; line-height:1.8; }
+    .spec-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+    .spec-row { background:#fff; padding:22px 24px; min-height:126px; }
+    .spec-row h3 { margin:0 0 10px; color:var(--navy); font-size:18px; line-height:1.35; }
+    .spec-row p { margin:0; color:var(--ink); font-size:15px; line-height:1.72; }
+    .logo-board figure, .asset-grid figure, .showcase-grid figure {
+      margin:0;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      overflow:hidden;
+    }
+    figure figcaption { padding:12px 14px; color:var(--gray); font-size:13px; border-top:1px solid var(--line); }
+    .logo-board { display:grid; gap:18px; margin-bottom:28px; }
+    .asset-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-bottom:28px; }
+    .asset-grid.compact { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .asset-grid img { width:100%; aspect-ratio:16/10; object-fit:contain; background:#fff; }
+    .asset-grid.compact img { aspect-ratio:1; padding:16px; }
+    .color-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:0 0 30px; }
+    .color-swatch { min-height:190px; padding:22px; border:1px solid var(--line); border-radius:var(--radius); display:flex; flex-direction:column; justify-content:flex-end; gap:8px; }
+    .color-swatch.light { color:#fff; }
+    .color-swatch.dark { color:var(--navy); }
+    .color-swatch strong { font-size:24px; }
+    .color-swatch span { font-size:14px; }
+    button {
+      appearance:none;
+      width:max-content;
+      border:1px solid currentColor;
+      border-radius:var(--radius);
+      background:transparent;
+      color:inherit;
+      padding:7px 11px;
+      font:inherit;
+      font-size:12px;
+      cursor:pointer;
+    }
+    .type-specimen { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:30px; }
+    .type-specimen > div { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:34px; }
+    .type-specimen span { color:var(--blue); font-weight:700; font-size:14px; }
+    .type-specimen h3 { color:var(--navy); font-size:42px; line-height:1.16; margin:20px 0; }
+    .type-specimen p { color:var(--ink); font-size:18px; line-height:1.6; }
+    .ui-spec { display:flex; flex-wrap:wrap; gap:16px; align-items:end; margin-bottom:30px; padding:28px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+    .ui-spec .primary { background:var(--blue); color:#fff; border-color:var(--blue); padding:12px 18px; }
+    .ui-spec .secondary { background:#fff; color:var(--navy); padding:12px 18px; }
+    .ui-spec label { display:grid; gap:8px; color:var(--gray); font-size:13px; }
+    .ui-spec input { width:260px; padding:13px 14px; border:1px solid var(--line); border-radius:var(--radius); font:inherit; color:var(--ink); }
+    .sample-card { display:grid; gap:6px; min-width:220px; padding:18px; border:1px solid var(--line); border-radius:var(--radius); background:var(--offwhite); }
+    .sample-card strong { color:var(--navy); }
+    .sample-card span { color:var(--blue); }
+    .showcase-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-bottom:30px; }
+    .showcase-grid img { width:100%; aspect-ratio:16/10; object-fit:cover; }
+    .coverage { padding:82px 7vw 120px; background:var(--navy); color:#fff; }
+    .coverage h2 { margin:0 0 28px; font-size:44px; }
+    .coverage ol { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.2); }
+    .coverage li { min-height:92px; padding:18px; background:rgba(255,255,255,.05); display:grid; gap:8px; }
+    .coverage li span { color:var(--sky); font-weight:800; }
+    .coverage li strong { font-size:14px; line-height:1.3; }
+    .coverage li em { font-style:normal; color:#fff; opacity:.72; font-size:12px; }
+    .reveal { opacity:.001; transform:translateY(10px); transition:opacity .45s ease, transform .45s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    .mobile-menu-toggle { display:none; }
+    @media (max-width:980px) {
+      body { overflow-x:hidden; }
+      .manual-shell { display:block; }
+      nav {
+        position:sticky;
+        top:0;
+        z-index:50;
+        height:auto;
+        padding:0;
+        border-right:0;
+        border-bottom:1px solid var(--line);
+        background:rgba(255,255,255,.96);
+        backdrop-filter:blur(14px);
+        -webkit-backdrop-filter:blur(14px);
+        overflow:visible;
+      }
+      .mobile-menu-toggle {
+        display:flex;
+        width:100%;
+        min-height:56px;
+        align-items:center;
+        justify-content:space-between;
+        padding:0 18px;
+        border:0;
+        border-radius:0;
+        background:#fff;
+        color:var(--navy);
+        font-size:14px;
+        font-weight:700;
+      }
+      .mobile-menu-toggle b { color:var(--blue); font-size:18px; line-height:1; }
+      .nav-inner {
+        display:none;
+        position:absolute;
+        top:56px;
+        left:0;
+        right:0;
+        max-height:calc(100vh - 56px);
+        padding:20px 18px 28px;
+        overflow:auto;
+        background:#fff;
+        border-bottom:1px solid var(--line);
+        box-shadow:0 16px 34px rgba(7,26,87,.10);
+      }
+      nav.open .nav-inner { display:block; }
+      nav.open .mobile-menu-toggle b { transform:rotate(90deg); }
+      .nav-logo { width:72px; margin-bottom:14px; }
+      nav h1 { font-size:22px; }
+      nav p { margin-bottom:14px; font-size:12px; }
+      nav a { min-height:43px; padding:10px 0; font-size:14px; }
+      main { width:100%; }
+      .cover {
+        grid-template-columns:1fr;
+        min-height:auto;
+        padding:56px 20px 46px;
+        gap:32px;
+        background-size:40px 40px;
+      }
+      .cover h2 { font-size:clamp(40px,12vw,58px); letter-spacing:-.035em; }
+      .cover p { font-size:17px; line-height:1.7; }
+      .cover .meta { gap:8px; margin-top:24px; }
+      .cover .meta span { padding:8px 10px; font-size:11px; }
+      .cover-logo { padding:30px; }
+      .chapter { scroll-margin-top:56px; padding:50px 20px; }
+      .chapter-head { grid-template-columns:1fr; gap:10px; margin-bottom:26px; }
+      .chapter-head span { font-size:14px; }
+      .chapter-head h2 { font-size:32px; line-height:1.15; }
+      .chapter-head p { grid-column:1; font-size:16px; line-height:1.7; }
+      .spec-list, .asset-grid, .type-specimen, .showcase-grid, .coverage ol, .color-grid { grid-template-columns:1fr; }
+      .spec-row { min-height:auto; padding:18px 18px; }
+      .spec-row h3 { font-size:16px; }
+      .spec-row p { font-size:14px; }
+      .asset-grid.compact { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+      .asset-grid, .showcase-grid { gap:12px; }
+      figure figcaption { font-size:11px; }
+      .color-swatch { min-height:150px; }
+      .type-specimen > div { padding:22px; }
+      .type-specimen h3 { font-size:30px; }
+      .type-specimen p { font-size:15px; }
+      .ui-spec { padding:20px; align-items:stretch; }
+      .ui-spec input { width:100%; max-width:100%; }
+      .sample-card { min-width:0; width:100%; }
+      .coverage { scroll-margin-top:56px; padding:52px 20px 76px; }
+      .coverage h2 { font-size:30px; }
+      .coverage li { min-height:78px; }
+    }
+    @media (max-width:520px) {
+      .cover { padding-left:18px; padding-right:18px; }
+      .chapter { padding-left:18px; padding-right:18px; }
+      .chapter-head h2 { font-size:28px; }
+      .asset-grid.compact { grid-template-columns:1fr 1fr; }
+      .color-swatch strong { font-size:20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      .reveal { opacity:1; transform:none; transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="manual-shell">
+    <nav>
+      <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-links"><span>章节目录</span><b>☰</b></button>
+      <div class="nav-inner" id="mobile-nav-links">
+      <img src="assets/liubai-logo-avatar-blue-light.png" alt="LiuBai avatar" class="nav-logo">
+      <h1>LiuBai VI Manual</h1>
+      <p>Version 1.0 / 2026-09-04<br>Visual Design / AI Design / Brand Design</p>
+      <a href="#ch01"><span>01</span>品牌概述</a>
+<a href="#ch02"><span>02</span>Logo 标识系统</a>
+<a href="#ch03"><span>03</span>Logo 规范</a>
+<a href="#ch04"><span>04</span>色彩系统</a>
+<a href="#ch05"><span>05</span>字体系统</a>
+<a href="#ch06"><span>06</span>图形语言系统</a>
+<a href="#ch07"><span>07</span>图标系统</a>
+<a href="#ch08"><span>08</span>图像与影像系统</a>
+<a href="#ch09"><span>09</span>版式系统</a>
+<a href="#ch10"><span>10</span>数字产品视觉规范</a>
+<a href="#ch11"><span>11</span>动效系统</a>
+<a href="#ch12"><span>12</span>办公物料系统</a>
+<a href="#ch13"><span>13</span>宣传物料系统</a>
+<a href="#ch14"><span>14</span>数字媒体系统</a>
+<a href="#ch15"><span>15</span>包装系统</a>
+<a href="#ch16"><span>16</span>空间与环境系统</a>
+<a href="#ch17"><span>17</span>周边系统</a>
+<a href="#ch18"><span>18</span>品牌应用展示</a>
+<a href="#ch19"><span>19</span>禁用规范总览</a>
+<a href="#ch20"><span>20</span>文件交付规范</a>
+<a href="#ch21"><span>21</span>品牌管理规范</a>
+      </div>
+    </nav>
+    <main>
+      <header class="cover">
+        <div>
+          <h2>LiuBai Brand Identity System</h2>
+          <p>一套围绕“留白空间”的蓝色视觉识别系统：厚实几何 Logo、克制蓝白色彩、编辑感版式，以及适合设计公司的数字与提案应用。</p>
+          <div class="meta">
+            <span>Primary Blue #103FD5</span>
+            <span>Full VI Manual</span>
+            <span>Image-based Logo Assets</span>
+          </div>
+        </div>
+        <div class="cover-logo"><img src="assets/liubai-logo-primary-blue-transparent.png" alt="LiuBai primary logo"></div>
+      </header>
+      
+    <section id="ch01" class="chapter">
+      <div class="chapter-head">
+        <span>01</span>
+        <h2>品牌概述 / Brand Overview</h2>
+        <p>LiuBai 是一家面向创意文化品牌的高端精品视觉设计公司，以留白、秩序和温度建立清晰可延展的视觉系统。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>1.1 品牌名称</h3>
+              <p>标准写法为 LiuBai；英文名称作为主识别，中文“留白”作为概念来源与说明文字使用。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.2 品牌简介</h3>
+              <p>提供视觉设计、AI 设计和品牌设计服务，重点帮助客户把想法整理为可执行的识别系统。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.3 品牌定位</h3>
+              <p>高端精品设计工作室；服务重心在品牌视觉策略、系统化视觉资产和创意文化项目。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.4 品牌使命</h3>
+              <p>用克制而有趣的设计，把复杂想法转化为清楚、可记忆、可持续使用的视觉秩序。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.5 品牌愿景</h3>
+              <p>成为创意文化品牌在 AI 时代建立视觉识别和内容系统时首选的设计伙伴。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.6 品牌价值观</h3>
+              <p>清晰、留白、系统、好奇、温度；每一项都应能在版式、图像与交付文件中被看见。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.7 品牌关键词</h3>
+              <p>留白空间、几何圆角、视觉秩序、AI 共创、编辑感、高级但亲近。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.8 品牌人格</h3>
+              <p>像一位敏锐的设计合伙人：判断明确、表达轻盈、审美干净，同时保留一点微笑感。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>1.9 品牌语气</h3>
+              <p>少说套话，多给判断；语言克制、直接、带一点温柔的机智。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch02" class="chapter">
+      <div class="chapter-head">
+        <span>02</span>
+        <h2>Logo 标识系统 / Logo Identity System</h2>
+        <p>已确认的 Logo 是上下堆叠的几何字标，核心记忆点来自 u 内的微笑负形与整体厚实圆角结构。</p>
+      </div>
+      
+        <div class="logo-board">
+          <figure><img src="assets/liubai-logo-system-board-blue.png" alt="LiuBai blue logo system board"><figcaption>Logo System 标志系统</figcaption></figure>
+          <div class="asset-grid compact">
+            <figure><img src="assets/liubai-logo-primary-blue-offwhite.png" alt="Primary blue logo"><figcaption>Primary / 主标</figcaption></figure>
+            <figure><img src="assets/liubai-logo-primary-white-on-blue.png" alt="White logo on blue"><figcaption>Blue Field / 蓝底</figcaption></figure>
+            <figure><img src="assets/liubai-logo-avatar-white-on-blue.png" alt="Social avatar"><figcaption>Avatar / 头像</figcaption></figure>
+            <figure><img src="assets/liubai-logo-favicon-blue-256.png" alt="Favicon"><figcaption>Favicon</figcaption></figure>
+          </div>
+        </div>
+        
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>2.1 Logo 设计理念</h3>
+              <p>以“留白”为概念，把负空间转化为微笑表情；让设计公司的理性秩序与亲和力同时存在。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.2 主 Logo</h3>
+              <p>首选蓝色主标 #103FD5，使用透明底或暖白/白色背景，保持完整上下堆叠形态。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.3 图形标</h3>
+              <p>当前阶段图形标采用主标的社媒头像裁切，不拆出单独字母，避免破坏已确认识别。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.4 字标</h3>
+              <p>字标为 LiuBai 堆叠整体，不建议重排单行字标作为主识别；单行文字只作为辅助说明。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.5 中文组合</h3>
+              <p>中文“留白”不进入主 Logo，可用于品牌故事、副标题、提案内页或中文语境说明。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.6 英文组合</h3>
+              <p>英文组合以 LiuBai 为唯一主写法，注意 L 与 B 的首字母大写。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.7 中英文组合</h3>
+              <p>中英文组合建议英文 Logo 在上，中文说明在下；中文字号不超过 Logo 高度的 12%。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.8 横版组合</h3>
+              <p>横版用于网站导航和邮件签名：左侧放头像式 Logo，右侧放 LiuBai 与业务描述。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.9 竖版组合</h3>
+              <p>竖版即当前主标结构，适合封面、头像、海报主视觉和空间墙面。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.10 小尺寸图标</h3>
+              <p>96px 以上使用完整主标；64px 以下优先使用头像裁切并保留足够蓝白对比。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.11 App Icon</h3>
+              <p>App Icon 用蓝底反白或暖白底蓝标，圆角容器不改变 Logo 自身轮廓。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>2.12 Favicon</h3>
+              <p>Favicon 使用蓝色透明底 PNG；低于 64px 时检查微笑负形是否仍可辨识。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch03" class="chapter">
+      <div class="chapter-head">
+        <span>03</span>
+        <h2>Logo 规范 / Logo Usage Rules</h2>
+        <p>Logo 规范重点保护比例、负形和周围留白，任何应用都不能重画或挤压已确认图形。</p>
+      </div>
+      
+        <div class="asset-grid">
+          <figure><img src="assets/liubai-logo-small-size-test.png" alt="Small size test"><figcaption>Small Size Test / 小尺寸识别</figcaption></figure>
+          <figure><img src="assets/liubai-logo-website-nav-blue-test.png" alt="Website nav test"><figcaption>Website Nav / 导航栏测试</figcaption></figure>
+        </div>
+        
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>3.1 标准比例</h3>
+              <p>保持原始图像比例，不拉伸、不压缩、不单独放大某个字母。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>3.2 网格制图</h3>
+              <p>网格只用于说明构成关系，不用于重新修正字形；以现有图像为最终形态依据。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>3.3 安全空间</h3>
+              <p>以 i 点直径为 x，四周至少保留 1x 空间；封面和头像建议保留 1.5x。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>3.4 最小尺寸</h3>
+              <p>屏幕最小建议 64px；印刷最小建议 18mm；低于该尺寸时使用头像裁切。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>3.5 图文组合比例</h3>
+              <p>辅助文字高度不超过 Logo 高度 12%，间距不小于 0.6x。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>3.6 深浅背景使用</h3>
+              <p>浅底使用蓝色或黑色；蓝底/深蓝底使用白色反白版。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>3.7 图片背景使用</h3>
+              <p>只放在低噪声、留白充足区域；必要时加白色/深蓝承载底，不直接叠在复杂照片上。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>3.8 错误使用示例</h3>
+              <p>禁止描边、阴影、渐变填充、旋转、拆字、替换字体、改变微笑负形或任意压缩。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch04" class="chapter">
+      <div class="chapter-head">
+        <span>04</span>
+        <h2>色彩系统 / Color System</h2>
+        <p>色彩参考已确认蓝色样张：高饱和主蓝承担识别，深蓝提供专业深度，浅蓝只做精确辅助。</p>
+      </div>
+      
+        <div class="asset-grid">
+          <figure><img src="assets/liubai-logo-color-palette-board.png" alt="Color palette board"><figcaption>Palette Board / 色彩规范板</figcaption></figure>
+        </div>
+        <div class="color-grid">
+            <div class="color-swatch light" style="background:var(--blue)">
+              <strong>Primary Blue</strong>
+              <span>#103FD5</span>
+              <span>RGB 16 63 213</span>
+              <span>CMYK 88 77 0 0</span>
+              <button data-copy="#103FD5">Copy HEX</button>
+            </div>
+            
+
+            <div class="color-swatch light" style="background:var(--navy)">
+              <strong>Deep Navy</strong>
+              <span>#071A57</span>
+              <span>RGB 7 26 87</span>
+              <span>CMYK 100 96 32 35</span>
+              <button data-copy="#071A57">Copy HEX</button>
+            </div>
+            
+
+            <div class="color-swatch dark" style="background:var(--sky)">
+              <strong>Sky Blue</strong>
+              <span>#67BAE4</span>
+              <span>RGB 103 186 228</span>
+              <span>CMYK 55 10 2 0</span>
+              <button data-copy="#67BAE4">Copy HEX</button>
+            </div>
+            
+
+            <div class="color-swatch dark" style="background:#fff">
+              <strong>White</strong>
+              <span>#FFFFFF</span>
+              <span>RGB 255 255 255</span>
+              <span>CMYK 0 0 0 0</span>
+              <button data-copy="#FFFFFF">Copy HEX</button>
+            </div>
+            
+
+            <div class="color-swatch dark" style="background:var(--offwhite)">
+              <strong>Off White</strong>
+              <span>#FAF8F5</span>
+              <span>RGB 250 248 245</span>
+              <span>Background</span>
+              <button data-copy="#FAF8F5">Copy HEX</button>
+            </div>
+            
+
+            <div class="color-swatch light" style="background:var(--ink)">
+              <strong>Ink</strong>
+              <span>#09153F</span>
+              <span>RGB 9 21 63</span>
+              <span>Text</span>
+              <button data-copy="#09153F">Copy HEX</button>
+            </div>
+            </div>
+        
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>4.1 品牌主色</h3>
+              <p>Primary Blue #103FD5；用于主 Logo、关键按钮、封面主色块和社媒识别区。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.2 辅助色</h3>
+              <p>Deep Navy #071A57；用于标题、深色背景、提案封面和高对比文本。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.3 强调色</h3>
+              <p>Sky Blue #67BAE4；用于提示线、局部数据、状态点和图形细节，比例保持克制。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.4 中性色</h3>
+              <p>Black #0A0A09、Ink #09153F、Gray #8E8F94、Line #DAE1EF。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.5 背景色</h3>
+              <p>White #FFFFFF 与 Off-white #FAF8F5；白色与暖白是“留白”概念的主要视觉载体。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.6 状态色</h3>
+              <p>成功可用 Sky Blue 的浅色延展；警示和错误不纳入品牌主视觉，仅用于功能界面。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.7 HEX / RGB / CMYK / Pantone</h3>
+              <p>手册给出 HEX/RGB/CMYK；Pantone 需打样后锁定，初稿建议以近似亮蓝专色测试。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.8 色彩使用比例</h3>
+              <p>建议白/暖白 48%，主蓝 30%，深蓝 15%，浅蓝 7%。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.9 深色模式</h3>
+              <p>深蓝为底，Logo 用白色；主蓝用于焦点和链接，不大面积叠加渐变。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.10 浅色模式</h3>
+              <p>暖白或白色为底，Logo 用主蓝；标题可用深蓝，正文用 Ink。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>4.11 色彩禁用规范</h3>
+              <p>禁止泛科技紫蓝渐变、低对比浅蓝正文、过量单色蓝铺满以及随意换成荧光蓝。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch05" class="chapter">
+      <div class="chapter-head">
+        <span>05</span>
+        <h2>字体系统 / Typography System</h2>
+        <p>字体系统服务于设计公司的编辑感：标题稳、正文清楚、数字和标签具有工具感。</p>
+      </div>
+      
+        <div class="type-specimen">
+          <div>
+            <span>English Display</span>
+            <h3>LiuBai makes room for meaning.</h3>
+            <p>Visual Design / AI Design / Brand Design / 0123456789</p>
+          </div>
+          <div>
+            <span>中文标题</span>
+            <h3>留白，是让想法被看见的秩序。</h3>
+            <p>品牌视觉、AI 图像系统、作品集与提案设计。</p>
+          </div>
+        </div>
+        
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>5.1 中文标题字体</h3>
+              <p>建议使用 HarmonyOS Sans SC / 思源黑体 / 微软雅黑 Bold，字重 700。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.2 中文正文字体</h3>
+              <p>建议使用 HarmonyOS Sans SC / 思源黑体 / 微软雅黑 Regular，字重 400。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.3 英文标题字体</h3>
+              <p>可参考 Codec Pro 的几何圆润气质；实际落地可用 Inter / Avenir Next / Arial Rounded 替代。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.4 英文正文字体</h3>
+              <p>Inter / Helvetica Neue / Arial；用于正文、导航、规范说明和设计 token。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.5 数字字体</h3>
+              <p>数字与英文字体保持一致，表格和规格建议使用 Tabular lining numerals。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.6 替代字体</h3>
+              <p>系统环境优先使用 Microsoft YaHei + Arial；网页可用 CSS fallback。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.7 字号层级</h3>
+              <p>封面 72/84，章节标题 44/56，模块标题 24/32，正文 16/26，标签 12/18。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.8 字重规范</h3>
+              <p>标题 700，强调 600，正文 400；避免极细字重削弱 Logo 的厚实感。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.9 行距规范</h3>
+              <p>标题行距 1.08-1.16，正文行距 1.55-1.7，中文长文不低于 1.6。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.10 中英文混排规范</h3>
+              <p>英文品牌名与中文之间保留半角空格；专业词汇首次出现可保留英文原文。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>5.11 字体禁用规范</h3>
+              <p>禁用书法、宋体复古装饰、过度圆润儿童字体和赛博科技显示字体。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch06" class="chapter">
+      <div class="chapter-head">
+        <span>06</span>
+        <h2>图形语言系统 / Graphic Language System</h2>
+        <p>图形语言来自 Logo 的圆角、块面和负空间，用“白色窗口”组织信息，而不是堆装饰。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>6.1 辅助图形</h3>
+              <p>使用圆角块面、微笑弧线、x 空间框和网格线作为辅助图形。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>6.2 品牌纹样</h3>
+              <p>可从 Logo 的圆点、圆角矩形和弧线提取重复纹样，密度保持低。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>6.3 装饰元素</h3>
+              <p>装饰元素必须承担分区、引导或强调功能；不使用无意义漂浮图形。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>6.4 背景图形</h3>
+              <p>背景可用浅蓝网格或大面积留白，线宽细、对比低。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>6.5 图形生成规则</h3>
+              <p>从 i 点直径、u 微笑弧线和字母圆角提取尺寸关系；所有图形保持统一半径。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>6.6 图形应用示例</h3>
+              <p>用于封面分割、社媒模板边界、PPT 页码、作品集水印和导视箭头背景。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>6.7 图形禁用规范</h3>
+              <p>禁止星芒、印章、毛笔纹理、复杂渐变光效和过度可爱表情化。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch07" class="chapter">
+      <div class="chapter-head">
+        <span>07</span>
+        <h2>图标系统 / Icon System</h2>
+        <p>图标应像设计工具的界面元素，清楚、轻量、统一半径，与厚 Logo 保持层级差。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>7.1 图标风格</h3>
+              <p>线性几何图标，端点圆角，避免卡通化。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>7.2 图标网格</h3>
+              <p>基础 24px 网格，核心形态落在 20px 区域内。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>7.3 图标尺寸</h3>
+              <p>常用 16/20/24/32px；官网导航不低于 20px。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>7.4 图标线宽</h3>
+              <p>24px 图标线宽 1.75-2px；大尺寸可扩展至 2.5px。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>7.5 图标圆角</h3>
+              <p>圆角与 Logo 的柔和气质相呼应，但不复制厚重字形。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>7.6 功能图标</h3>
+              <p>作品、AI、品牌、联系、下载、复制、播放等功能图标应优先使用统一库。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>7.7 状态图标</h3>
+              <p>状态点使用主蓝/浅蓝/灰色，错误色仅限功能反馈。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>7.8 图标禁用规范</h3>
+              <p>禁止不同线宽混用、填充图标与线性图标混排、随机表情符号化。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch08" class="chapter">
+      <div class="chapter-head">
+        <span>08</span>
+        <h2>图像与影像系统 / Image and Motion-Image System</h2>
+        <p>图像风格要有设计行业的编辑判断：干净、真实、可展示过程，也能容纳 AI 生成实验。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>8.1 摄影风格</h3>
+              <p>偏自然光、干净背景、真实设计过程和作品细节，保留画面呼吸感。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.2 产品图风格</h3>
+              <p>产品即设计成果：品牌手册、海报、界面、视觉系统板，拍摄需正视角或轻微俯拍。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.3 人物图风格</h3>
+              <p>人物出现时以工作状态、讨论、评审为主，不做夸张商业大片。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.4 插画风格</h3>
+              <p>如需插画，使用几何块面和负空间关系，不使用儿童化涂鸦。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.5 3D 渲染风格</h3>
+              <p>当前品牌主系统不依赖 3D；如用于 AI 设计展示，应保持白底、低材质噪声。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.6 AI 生成图风格</h3>
+              <p>AI 图像应像视觉实验样张，强调构图、材质和秩序，而不是炫技。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.7 构图规范</h3>
+              <p>大留白、清晰对齐、主体偏左或居中，避免全画面填满。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.8 光影规范</h3>
+              <p>柔和自然阴影，避免霓虹、强烈眩光和科技感光束。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>8.9 图片禁用规范</h3>
+              <p>禁用模板感办公照片、过度虚化背景、无关抽象球体和难以识别的 AI 画面。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch09" class="chapter">
+      <div class="chapter-head">
+        <span>09</span>
+        <h2>版式系统 / Layout System</h2>
+        <p>版式是 LiuBai 的核心表达：用秩序制造空间，让关键信息像 Logo 的负形一样被看见。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>9.1 栅格系统</h3>
+              <p>桌面端 12 栏，移动端 4 栏；内容区最大宽度 1280px。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.2 页面边距</h3>
+              <p>桌面外边距 80-120px，移动端 24px；封面可加大留白。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.3 模块间距</h3>
+              <p>使用 8px 基础倍数：16/24/40/64/96。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.4 留白规则</h3>
+              <p>留白不是空缺，而是分组和强调；每屏至少保留一个明确的安静区域。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.5 标题版式</h3>
+              <p>标题短句优先，使用左对齐或大面积居中，避免堆叠过多副标题。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.6 图文组合</h3>
+              <p>图片和文字不要平均分配，优先一强一弱的编辑节奏。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.7 数据版式</h3>
+              <p>数据使用深蓝标题、主蓝重点、浅蓝辅助线；表格避免重边框。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.8 社媒版式</h3>
+              <p>一张图一个中心观点，Logo 不抢内容主角，保留稳定签名区。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.9 PPT 版式</h3>
+              <p>标题页大留白，内容页使用强网格；每页只保留一个主判断。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>9.10 版式禁用规范</h3>
+              <p>禁止满屏填充、过密装饰、文字贴边、按钮和 Logo 抢层级。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch10" class="chapter">
+      <div class="chapter-head">
+        <span>10</span>
+        <h2>数字产品视觉规范 / Digital Product Visual Guidelines</h2>
+        <p>虽然 LiuBai 是设计公司，官网、客户门户和 AI 设计工具展示都需要可执行的数字视觉规则。</p>
+      </div>
+      
+        <div class="ui-spec">
+          <button class="primary">Primary Action</button>
+          <button class="secondary">Secondary</button>
+          <label><span>Input Field</span><input value="Project identity system"></label>
+          <div class="sample-card"><strong>Brand Assets</strong><span>12 files ready</span></div>
+        </div>
+        
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>10.1 UI 色彩</h3>
+              <p>按钮主色 #103FD5，标题 #071A57，背景 #FFFFFF/#FAF8F5，辅助线 #DAE1EF。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.2 UI 字体</h3>
+              <p>中文 Microsoft YaHei / HarmonyOS Sans；英文 Inter / Arial。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.3 UI 间距</h3>
+              <p>基础间距 8px；组件内 12/16/24，页面段落 64/96。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.4 UI 圆角</h3>
+              <p>按钮和输入框 8px；大型面板 8px；Logo 容器不超过 12px。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.5 UI 阴影</h3>
+              <p>少用阴影，优先边线分层；浮层阴影透明度不超过 14%。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.6 深浅色模式</h3>
+              <p>浅色模式为主；深色模式使用 Navy 底和白色 Logo。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.7 按钮组件</h3>
+              <p>主按钮蓝底白字，次按钮白底深蓝字，禁用状态降低透明度。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.8 输入框组件</h3>
+              <p>白底细边线，焦点边线主蓝；错误状态只用于表单反馈。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.9 卡片组件</h3>
+              <p>卡片用于项目、文章、案例条目；不要把页面大区块都做成卡片。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.10 弹窗组件</h3>
+              <p>弹窗只承载确认、下载和表单；宽度不超过 560px。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.11 导航组件</h3>
+              <p>导航保持轻量，Logo 左置，主操作右置；移动端折叠菜单。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.12 空状态 / 加载状态</h3>
+              <p>使用微笑弧线或 i 点作为加载提示，动画不超过 1.2s。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>10.13 Design Token</h3>
+              <p>提供颜色、字体、间距、圆角、阴影和导出尺寸 token，便于官网实现。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch11" class="chapter">
+      <div class="chapter-head">
+        <span>11</span>
+        <h2>动效系统 / Motion System</h2>
+        <p>动效只用来解释“留白出现”的过程：点落下、微笑打开、Logo 收束。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>11.1 Logo 动画</h3>
+              <p>建议 3 步：i 点落位，u 微笑弧线出现，整体字标显现。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.2 加载动画</h3>
+              <p>使用 i 点轻微跳动或微笑弧线描绘，避免复杂粒子。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.3 页面转场</h3>
+              <p>页面转场以 160-240ms 淡入和轻微位移为主。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.4 按钮反馈</h3>
+              <p>按钮 hover 轻微上移 1-2px，active 回落。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.5 图标动效</h3>
+              <p>线性图标可做 120-180ms 的描边或颜色反馈。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.6 视频片头</h3>
+              <p>片头 2-3 秒，白底或蓝底，Logo 居中出现。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.7 视频片尾</h3>
+              <p>片尾保留联系方式和 Logo，主蓝底或暖白底。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.8 动效时长</h3>
+              <p>微交互 120-240ms；Logo 出场 600-900ms；页面转场 180-320ms。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.9 动效曲线</h3>
+              <p>推荐 cubic-bezier(.2,.8,.2,1)，干净、有弹性但不过度。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>11.10 动效禁用规范</h3>
+              <p>禁用弹跳过大、旋转 Logo、发光扫光和随机粒子动效。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch12" class="chapter">
+      <div class="chapter-head">
+        <span>12</span>
+        <h2>办公物料系统 / Office Collateral System</h2>
+        <p>办公物料体现精品工作室的可信度，重点是提案、合同、报价和项目交付体验。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>12.1 名片</h3>
+              <p>白底蓝标，信息左对齐；反面可用主蓝底反白 Logo。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.2 电子名片</h3>
+              <p>适配微信、邮件签名和官网联系页，Logo 使用 96px 头像版。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.3 信纸</h3>
+              <p>顶部左侧 Logo，底部用浅蓝细线和联系信息。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.4 信封</h3>
+              <p>当前阶段低频使用；如制作，保持白底、左上角蓝标。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.5 文件夹</h3>
+              <p>主蓝或深蓝封面，反白 Logo 居中或左上。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.6 合同模板</h3>
+              <p>标题深蓝，章节编号主蓝，正文高可读。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.7 报价单模板</h3>
+              <p>价格和阶段用主蓝强调，表格边线用浅灰蓝。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.8 工牌</h3>
+              <p>小型蓝标 + 姓名 + 职能，照片区域保持简洁。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.9 PPT 模板</h3>
+              <p>封面大留白，章节页主蓝色块，内容页使用 12 栏网格。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.10 Word 模板</h3>
+              <p>保留页眉 Logo 与页脚项目信息，正文使用系统字体。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>12.11 邮件签名</h3>
+              <p>头像式 Logo、姓名、业务范围和联系方式，避免图片过大。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch13" class="chapter">
+      <div class="chapter-head">
+        <span>13</span>
+        <h2>宣传物料系统 / Marketing Collateral System</h2>
+        <p>宣传物料要像设计作品展示，而不是普通广告；重点展示判断、过程和结果。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>13.1 品牌海报</h3>
+              <p>使用大字号短句 + Logo 签名区，保留强烈留白。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.2 产品海报</h3>
+              <p>服务型品牌的“产品”是设计服务包，可展示品牌设计、AI 视觉和视觉系统。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.3 宣传单页</h3>
+              <p>信息分层清楚：服务、方法、案例、联系方式。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.4 品牌手册</h3>
+              <p>用于对外介绍 LiuBai 方法论和作品方向，沿用本 VI 的排版系统。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.5 产品手册</h3>
+              <p>可转译为服务手册，列出服务模块、交付物和流程。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.6 招商手册</h3>
+              <p>当前不作为主触点；如用于合作招募，保持专业提案风格。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.7 易拉宝</h3>
+              <p>用于展会/讲座，Logo 不低于画面宽度 18%，标题留足空间。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.8 展架</h3>
+              <p>使用深蓝底反白 Logo，提高远距离识别。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.9 活动背景板</h3>
+              <p>Logo 可作为重复签名，但密度不宜过高。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>13.10 邀请函</h3>
+              <p>适合工作坊、展览、发布会，采用白底蓝字与轻网格。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch14" class="chapter">
+      <div class="chapter-head">
+        <span>14</span>
+        <h2>数字媒体系统 / Digital Media System</h2>
+        <p>数字媒体是 LiuBai 的主战场：官网、作品集、社媒、视频封面都应先让人看到清楚的设计判断。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>14.1 官网首页</h3>
+              <p>首屏直接出现 Logo 与服务定位，作品入口清晰，避免营销式空话。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.2 官网 Hero 图</h3>
+              <p>Hero 使用真实作品/视觉系统图或强排版，不用无意义抽象背景。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.3 产品截图</h3>
+              <p>可用于展示 AI 设计流程、案例系统和客户交付界面。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.4 产品 Mockup</h3>
+              <p>以服务交付物 mockup 为主：手册、提案、网站、社媒模板。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.5 社媒头像</h3>
+              <p>使用蓝底反白或暖白底蓝标，保证圆形裁切安全。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.6 小红书封面</h3>
+              <p>一图一个标题，Logo 作签名，主蓝控制在 30%-50%。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.7 小红书内页</h3>
+              <p>图文教程式版式，使用浅蓝线框和深蓝标题。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.8 抖音封面</h3>
+              <p>标题不超过 12 字，Logo 保留在固定角位。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.9 B站封面</h3>
+              <p>可更强对比，但不要使用过多贴纸式装饰。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.10 公众号头图</h3>
+              <p>适合白底大标题 + 右侧 Logo 或案例图。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.11 直播封面</h3>
+              <p>当前为可选触点；用于设计课/分享时按课程封面规范执行。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.12 课程封面</h3>
+              <p>若未来做课程产品，沿用服务手册系统，不另起一套风格。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>14.13 内容模板</h3>
+              <p>建立案例复盘、AI 实验、品牌观察、方法论四类模板。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch15" class="chapter">
+      <div class="chapter-head">
+        <span>15</span>
+        <h2>包装系统 / Packaging System</h2>
+        <p>LiuBai 不是消费品品牌，包装系统主要作为项目交付包、礼品包和工作坊材料使用。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>15.1 包装盒</h3>
+              <p>用于项目交付盒，主蓝或白底，Logo 居中或左上。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.2 外箱</h3>
+              <p>低频使用；快递外箱只保留小 Logo 与项目编号。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.3 手提袋</h3>
+              <p>白色帆布或纸袋配蓝色 Logo，适合活动与交付。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.4 产品标签</h3>
+              <p>可转译为项目标签：Project No.、Client、Date、System Type。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.5 吊牌</h3>
+              <p>用于周边或活动物料，不作为主传播元素。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.6 贴纸</h3>
+              <p>蓝标、微笑弧线、x 留白框三类贴纸。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.7 感谢卡</h3>
+              <p>白底蓝字，保留一句短感谢和项目签名。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.8 说明书</h3>
+              <p>可作为交付说明书，列出资产使用规则和文件结构。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.9 合格证</h3>
+              <p>不适用当前设计服务主业；若未来有实体周边，可改为品质卡。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.10 防伪标签</h3>
+              <p>不适用当前阶段；版权/授权可用数字水印和文件签名替代。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.11 包装工艺</h3>
+              <p>建议哑光纸、单色印刷、局部 UV 或压凹，避免亮面廉价感。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>15.12 包装材质</h3>
+              <p>白卡纸、未涂布纸、蓝色特种纸和白色帆布为优先。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch16" class="chapter">
+      <div class="chapter-head">
+        <span>16</span>
+        <h2>空间与环境系统 / Space and Environment System</h2>
+        <p>空间应用应像工作室导视，而不是商业门店招牌；蓝色提供识别，留白提供质感。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>16.1 门头</h3>
+              <p>深蓝或白底蓝标，比例清楚，远距离可读。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.2 前台背景墙</h3>
+              <p>白墙 + 蓝色 Logo + 小号服务描述，避免满墙图案。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.3 办公室导视</h3>
+              <p>使用线性图标与浅蓝引导线，文字深蓝。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.4 会议室标识</h3>
+              <p>编号系统用主蓝圆点，房间名用深蓝字。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.5 展会展台</h3>
+              <p>大面积白底，主蓝识别墙，作品图集中陈列。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.6 活动签到处</h3>
+              <p>Logo 居左，活动名称为主视觉，二维码区域不抢色。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.7 灯箱广告</h3>
+              <p>仅建议用于活动/展览，反白 Logo + 短句。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.8 车身广告</h3>
+              <p>不适用当前设计公司主触点；如确有需求，使用极简蓝白标识。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>16.9 店铺形象</h3>
+              <p>不适用常规业务；可转译为临时快闪/展览视觉。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch17" class="chapter">
+      <div class="chapter-head">
+        <span>17</span>
+        <h2>周边系统 / Merchandise System</h2>
+        <p>周边不应喧宾夺主，适合作为客户礼品、活动物料和团队识别。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>17.1 T 恤</h3>
+              <p>白色或深蓝，左胸小 Logo，背后可放一句短品牌语。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.2 帽子</h3>
+              <p>低频使用；刺绣时优先用简化头像版。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.3 帆布袋</h3>
+              <p>白色帆布 + 主蓝 Logo，适合活动和交付包。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.4 马克杯</h3>
+              <p>白杯蓝标或深蓝杯白标，Logo 不绕杯身变形。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.5 贴纸套装</h3>
+              <p>包含 Logo、微笑弧线、留白框、项目编号贴。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.6 徽章</h3>
+              <p>圆形裁切使用头像版，保持边缘安全空间。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.7 笔记本</h3>
+              <p>封面蓝底反白或白底蓝标，内页用浅蓝网格。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.8 手机壳</h3>
+              <p>可选触点；只用小 Logo 或弧线，不做满版花纹。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.9 鼠标垫</h3>
+              <p>适合设计工作室自用；白底网格 + 蓝色角标。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>17.10 工牌挂绳</h3>
+              <p>主蓝底白字，Logo 间距不低于 1x。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch18" class="chapter">
+      <div class="chapter-head">
+        <span>18</span>
+        <h2>品牌应用展示 / Brand Application Showcase</h2>
+        <p>应用展示覆盖工作室真实触点：官网、社媒、提案、办公、海报、空间和交付包。</p>
+      </div>
+      <div class="showcase-grid"><figure><img src="assets/liubai-app-website-home.png" alt="官网首页"><figcaption>官网首页</figcaption></figure>
+<figure><img src="assets/liubai-app-social-templates.png" alt="社媒模板"><figcaption>社媒模板</figcaption></figure>
+<figure><img src="assets/liubai-app-proposal-cover.png" alt="提案封面"><figcaption>提案封面</figcaption></figure>
+<figure><img src="assets/liubai-app-office-collateral.png" alt="办公物料"><figcaption>办公物料</figcaption></figure>
+<figure><img src="assets/liubai-app-poster-system.png" alt="海报系统"><figcaption>海报系统</figcaption></figure>
+<figure><img src="assets/liubai-app-signage-space.png" alt="空间导视"><figcaption>空间导视</figcaption></figure>
+<figure><img src="assets/liubai-app-merch-packaging.png" alt="交付包装与周边"><figcaption>交付包装与周边</figcaption></figure>
+<figure><img src="assets/liubai-app-digital-ui-kit.png" alt="数字产品视觉"><figcaption>数字产品视觉</figcaption></figure>
+<figure><img src="assets/liubai-app-motion-storyboard.png" alt="动效分镜"><figcaption>动效分镜</figcaption></figure></div>
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>18.1 办公场景</h3>
+              <p>名片、信纸、文件夹、邮件签名形成稳定商务触点。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>18.2 宣传场景</h3>
+              <p>海报和活动视觉使用强版式，不做模板化宣传。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>18.3 数字场景</h3>
+              <p>官网、客户门户、社媒模板优先使用蓝白系统。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>18.4 包装场景</h3>
+              <p>以项目交付盒、手提袋、贴纸和感谢卡呈现。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>18.5 空间场景</h3>
+              <p>前台墙、门头、会议室和展会背景墙保持简洁。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>18.6 周边场景</h3>
+              <p>帆布袋、笔记本、贴纸和马克杯作为轻量延展。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>18.7 社媒场景</h3>
+              <p>头像、封面、内容模板、视频封面保持同一签名区。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>18.8 产品场景</h3>
+              <p>服务产品化展示：品牌包、AI 视觉包、作品集系统。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch19" class="chapter">
+      <div class="chapter-head">
+        <span>19</span>
+        <h2>禁用规范总览 / Misuse Overview</h2>
+        <p>禁用规范保护 Logo 的整体性，也保护 LiuBai 不滑向普通科技公司或传统文化品牌。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>19.1 Logo 禁用</h3>
+              <p>禁止拉伸、拆字、描边、阴影、改变 u 微笑负形和替换字体。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>19.2 色彩禁用</h3>
+              <p>禁止紫蓝渐变、荧光色、低对比浅蓝正文和随意变色。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>19.3 字体禁用</h3>
+              <p>禁止书法、印章、童趣圆体、赛博显示字体和复杂衬线标题。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>19.4 排版禁用</h3>
+              <p>禁止满版堆信息、无留白、文字贴边和多中心层级。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>19.5 图形禁用</h3>
+              <p>禁止星芒、毛笔纹理、复杂科技线网和无功能装饰。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>19.6 图片禁用</h3>
+              <p>禁止模板感办公照、过度虚化、无关抽象图和低质 AI 图。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>19.7 UI 禁用</h3>
+              <p>禁止过度圆角、重阴影、按钮泛滥和不可访问低对比。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>19.8 联名禁用</h3>
+              <p>联名时 Logo 不得低于对方标识视觉权重的 80%，且需保持安全空间。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch20" class="chapter">
+      <div class="chapter-head">
+        <span>20</span>
+        <h2>文件交付规范 / File Delivery Specifications</h2>
+        <p>交付文件必须让客户能直接用，也让后续设计师能继续维护。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>20.1 文件格式</h3>
+              <p>Logo 以 PNG 为主：透明底、白底、蓝底反白、深蓝底反白和 favicon 尺寸。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>20.2 文件命名</h3>
+              <p>使用 liubai-logo-[type]-[color]-[size].png；应用图使用 liubai-app-[touchpoint].png。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>20.3 文件夹结构</h3>
+              <p>logo-final/assets 存 Logo；vi-manual/assets 存手册用图；scripts 存生成脚本。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>20.4 源文件说明</h3>
+              <p>当前最终 Logo 源是已确认图像，不提供 SVG 重构版本。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>20.5 字体授权说明</h3>
+              <p>商业字体如 Codec Pro 需另行确认授权；系统替代字体可作为落地 fallback。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>20.6 印刷文件说明</h3>
+              <p>印刷前需按实际纸张与工艺测试 CMYK 和专色，不直接以屏幕蓝作为最终印刷标准。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>20.7 数字文件说明</h3>
+              <p>网站和社媒优先使用 PNG；小图标需单独测试 64/128/256/512px。</p>
+            </article>
+            </div>
+    </section>
+    
+
+    <section id="ch21" class="chapter">
+      <div class="chapter-head">
+        <span>21</span>
+        <h2>品牌管理规范 / Brand Governance</h2>
+        <p>VI 不是一次性图片包，需要有资产负责人、审批方式和版本记录。</p>
+      </div>
+      
+      <div class="spec-list">
+            <article class="spec-row">
+              <h3>21.1 品牌资产负责人</h3>
+              <p>指定一位内部负责人管理 Logo、模板、字体授权和外部使用申请。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>21.2 使用审批流程</h3>
+              <p>对外传播物料、联名露出和大型活动应用需经品牌负责人确认。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>21.3 外部合作规范</h3>
+              <p>外部设计师和供应商只能使用交付包内资产，不得自行重绘 Logo。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>21.4 联名合作规范</h3>
+              <p>联名版式需先确认双方权重、背景色和安全空间。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>21.5 版本更新机制</h3>
+              <p>每次 Logo、色彩、字体或模板调整都记录日期、版本号和变更原因。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>21.6 品牌资产下载方式</h3>
+              <p>资产包建议通过共享文件夹或官网下载页统一发放。</p>
+            </article>
+            
+            <article class="spec-row">
+              <h3>21.7 常见问题 FAQ</h3>
+              <p>常见问题包括：可否换色、可否裁切、可否做单行版、印刷蓝如何校准。</p>
+            </article>
+            </div>
+    </section>
+    
+      <section class="coverage" id="coverage">
+        <h2>Coverage Checklist / 章节覆盖检查</h2>
+        <ol><li><span>01</span><strong>品牌概述 / Brand Overview</strong><em>Complete</em></li>
+<li><span>02</span><strong>Logo 标识系统 / Logo Identity System</strong><em>Complete</em></li>
+<li><span>03</span><strong>Logo 规范 / Logo Usage Rules</strong><em>Complete</em></li>
+<li><span>04</span><strong>色彩系统 / Color System</strong><em>Complete</em></li>
+<li><span>05</span><strong>字体系统 / Typography System</strong><em>Complete</em></li>
+<li><span>06</span><strong>图形语言系统 / Graphic Language System</strong><em>Complete</em></li>
+<li><span>07</span><strong>图标系统 / Icon System</strong><em>Complete</em></li>
+<li><span>08</span><strong>图像与影像系统 / Image and Motion-Image System</strong><em>Complete</em></li>
+<li><span>09</span><strong>版式系统 / Layout System</strong><em>Complete</em></li>
+<li><span>10</span><strong>数字产品视觉规范 / Digital Product Visual Guidelines</strong><em>Complete</em></li>
+<li><span>11</span><strong>动效系统 / Motion System</strong><em>Complete</em></li>
+<li><span>12</span><strong>办公物料系统 / Office Collateral System</strong><em>Complete</em></li>
+<li><span>13</span><strong>宣传物料系统 / Marketing Collateral System</strong><em>Complete</em></li>
+<li><span>14</span><strong>数字媒体系统 / Digital Media System</strong><em>Complete</em></li>
+<li><span>15</span><strong>包装系统 / Packaging System</strong><em>Complete</em></li>
+<li><span>16</span><strong>空间与环境系统 / Space and Environment System</strong><em>Complete</em></li>
+<li><span>17</span><strong>周边系统 / Merchandise System</strong><em>Complete</em></li>
+<li><span>18</span><strong>品牌应用展示 / Brand Application Showcase</strong><em>Complete</em></li>
+<li><span>19</span><strong>禁用规范总览 / Misuse Overview</strong><em>Complete</em></li>
+<li><span>20</span><strong>文件交付规范 / File Delivery Specifications</strong><em>Complete</em></li>
+<li><span>21</span><strong>品牌管理规范 / Brand Governance</strong><em>Complete</em></li></ol>
+      </section>
+    </main>
+  </div>
+  <script>
+    const nav = document.querySelector('nav');
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    menuToggle?.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(open));
+    });
+
+    const links = [...document.querySelectorAll('nav a')];
+    links.forEach(link => link.addEventListener('click', () => { nav.classList.remove('open'); menuToggle?.setAttribute('aria-expanded','false'); }));
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const activate = () => {
+      let current = sections[0]?.id;
+      sections.forEach(section => {
+        if (section.getBoundingClientRect().top < 180) current = section.id;
+      });
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + current));
+    };
+    document.addEventListener('scroll', activate, { passive:true });
+    activate();
+
+    document.querySelectorAll('[data-copy]').forEach(button => {
+      button.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(button.dataset.copy);
+        const old = button.textContent;
+        button.textContent = 'Copied';
+        setTimeout(() => button.textContent = old, 900);
+      });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.target.classList.toggle('visible', entry.isIntersecting));
+    }, { threshold:.08 });
+    document.querySelectorAll('.chapter, .coverage').forEach(section => {
+      section.classList.add('reveal');
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>
